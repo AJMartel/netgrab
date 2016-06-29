@@ -23,7 +23,7 @@ lock = threading.Lock()
 threads = []
 
 def exec_on_host(host, command, user, password):
-    cmd = "pth-winexe -U {0}%{1} //{2} 'cmd.exe /c \"{3}\"'".format(username, password, host, command)
+    cmd = "pth-winexe -U {0}%{1} --reinstall //{2} 'cmd.exe /c \"{3}\"'".format(username, password, host, command)
     print(cmd)
     os.system(cmd)
 
