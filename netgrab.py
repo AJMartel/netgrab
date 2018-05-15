@@ -2,6 +2,10 @@
 
 import sys, os, threading
 
+username = "Administrator"
+password = "P@55w0rd"
+domain = "myDomain.com" #set to "" if using remote "local account"
+
 def usage():
     print("Usage: " + sys.argv[0] + " <Host> <Command>\n\n\
         \"Host\" is a hostname, IP or a file containing a list of IPs\n\
@@ -16,14 +20,17 @@ def usage():
 if len(sys.argv) != 3:
     usage()
 
-username = "Administrator"
-password = "P@55w0rd"
+if domain != "":
+    isondomain = "/"
+else
+    isondomain = ""
+
 cmd = sys.argv[2]
 lock = threading.Lock()
 threads = []
 
-def exec_on_host(host, command, user, password):
-    cmd = "pth-winexe -U {0}%{1} --reinstall //{2} 'cmd.exe /c \"{3}\"'".format(username, password, host, command)
+def exec_on_host(host, command, domain, isondomain, user, password):
+    cmd = "pth-winexe -U {0}{1}{2}%{3} --reinstall //{4} 'cmd.exe /c \"{5}\"'".format(domain, isondomain,username, password, host, command)
     print(cmd)
     os.system(cmd)
 
@@ -33,7 +40,7 @@ def get_hosts_from_file(path):
     return [(lambda h: h.strip())(h) for h in hosts]
 
 def execute(host, cmd):
-    response = exec_on_host(host, cmd, username, password)
+    response = exec_on_host(host, cmd, domain, isondomain, username, password)
     try:
         lock.acquire()
         print(response)
