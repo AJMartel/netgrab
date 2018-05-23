@@ -22,7 +22,7 @@ if len(sys.argv) != 3:
 
 if domain != "":
     isondomain = "/"
-else
+else:
     isondomain = ""
 
 cmd = sys.argv[2]
